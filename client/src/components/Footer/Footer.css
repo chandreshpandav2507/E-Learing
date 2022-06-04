@@ -1,0 +1,121 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500&display=swap');
+
+
+.footer{
+    background: #303036;
+    color: #d3d3d3;
+    height: 400px;
+    position: sticky;
+}
+.footer .footer-content{
+    /* border: 1px solid red; */
+    height: 350px;
+    display: flex;
+}
+
+.footer .footer-content .footer-section{
+    flex: 1;
+    padding: 25px;
+    /* border: 1px solid white; */
+}
+
+.footer .footer-content h1,
+.footer .footer-content h2 {
+    color: white;
+}
+
+.footer .footer-content .about h1 span {
+    color: #05f7ff;
+}
+
+.footer .footer-content .about .social span{
+    border: 1px solid gray;
+    width: 45px;
+    height: 41px;
+    padding-top: 5px;
+    margin-right: 5px;
+    text-align: center;
+    display: inline-block;
+    font-size: 1.3em;
+    border-radius: 5px;
+}
+
+.footer .footer-content .about .social span:hover{
+    border: 1px solid white;
+    transition: all .3s;
+    color: white;
+}
+
+.footer .footer-content .links ul a {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 1.3em;
+    text-decoration: none;
+    text-transform: capitalize;
+    color: white;
+}
+
+.footer .footer-content .links ul a:hover {
+    color: white;
+    margin-left: 15px;
+    transition: all .3s;    
+}
+
+
+.footer .footer-content .formContent {
+    margin-bottom: 10px;
+    width: 92%;
+    margin: 10px 0;
+    background: #303036;
+    color: white;
+    padding: 1rem;
+}
+.footer .footer-content .formContent:focus{
+    border: 1px solod #f44336;
+
+}
+
+
+.footer .footer-bottom{
+    background: #343a40;
+    color: #686868;
+    height: 50px;
+    width: 100%;
+    text-align: center;
+    position: static;
+    bottom: 0px;
+    left: 0px;
+    padding-top: 20px;
+}
+
+.footer-content .footer-section .buttonSend:focus {
+    outline: none;
+}
+
+
+/* footer .container .sec {
+    margin-right: 30px;
+}
+footer .container .sec.aboutus {
+    max-width: 40%;
+}
+
+footer .container .sec.aboutus h2{
+    position: relative;
+    color: #fff;
+    font-weight: 500;
+    margin-bottom: 15px;
+} 
+footer .container .sec.aboutus h2:before{
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 50px;
+    height: 2px;
+    background: #f00;
+} 
+
+footer .container .sec.aboutus p{
+    color: #999;
+}  */

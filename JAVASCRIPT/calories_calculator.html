@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connect to API endpoint return data</title>
+    <style>
+        .Header{
+            width: 100%;
+            height: 100px;
+            background-color: blanchedalmond;
+            border-bottom: 1px solid tomato;
+            margin: auto;
+            color: tomato;
+            text-align: center;
+        }
+        input[type=number] {
+            width: 30%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            box-sizing: border-box;
+            border: 2px solid red;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+   <div class="Header"><h1 style="padding-top: 2.5%;">Calories Calulator</h1></div>
+   <form id="myForm">
+       <div>
+            <lable for="female"> Female :</lable>
+            <input type="radio" name="female" id="f"/>
+            <lable for="male"> Male :</lable><input type="radio" name="male" id="m">
+       </div>
+       <div>
+        <lable for="fname"> Weight :</lable> <input type="number" name="Weight" id="Weight"> lbs
+       </div>
+       <div>
+        Height: <input type="number" name="Height" id="heightFeet"> Feet 
+        <input type="number" name="HeightInches" id="HeightInches"> Inches
+     </div>
+     <div>
+         Age: <input type="number" name="age" id="age"/>
+     </div>
+     <div>
+         Life Style: <input type="number" name="lifeStyle" id="lifeStyle"> (1 = Low Acivity & 5 = High Acivity)
+     </div>
+   </form>
+    <script src="calories.js"></script>
+</body>
+</html>

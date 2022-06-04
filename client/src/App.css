@@ -1,0 +1,28 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.alert {
+    padding: 0.8rem;
+    /* margin: 1rem 0; */
+    opacity: 0.9;
+    background: rgb(241, 138, 138);
+    color: #333;
+    border: 1px solid black;
+    border-radius:5px 5px;
+    margin-bottom: 5px;
+}
+
+.alert-primary{
+    background: #0275d8;
+}
+
+.alert-light {
+    background: rgb(241, 138, 138);
+    color: #333
+}
+
+.alert-dark {
+    background: red;
+    color: #fff;
+}
