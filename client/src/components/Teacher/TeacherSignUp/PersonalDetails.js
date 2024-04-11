@@ -1,8 +1,9 @@
-import React from 'react'
+import React, {useState} from 'react'
 
 import { Container, Avatar, TextField ,Button, CssBaseline, Grid, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import { isEmpty } from 'lodash';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -124,7 +125,6 @@ const PersonalDetails = ({ formData, setFormData, navigation }) => {
                     />
                 </Grid>
                 <Button
-                  type="submit"
                   fullWidth
                   variant="contained"
                   color="primary"

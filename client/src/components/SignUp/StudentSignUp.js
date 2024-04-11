@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Redirect } from "react-router-dom";
+import {Redirect, useHistory} from "react-router-dom";
 import { connect} from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -18,6 +18,7 @@ import { signup, loginStudent} from '../../store/actions/student'
 import Input from './Input'
 import { setAlert } from '../../store/actions/alert'
 import Alert from '../Alert/Alert';
+import {toast} from "react-toastify";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
     height: '80vh'
   },
   paper: {
-    margin: theme.spacing(15, 4),
+    margin: '32px',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -55,6 +56,7 @@ const StudentSignUp = (props) => {
   const classes = useStyles();
   const [isSignUp, setisSignUp] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const history = useHistory();
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -90,7 +92,9 @@ const StudentSignUp = (props) => {
     
     if(isSignUp) {
       if(password !== confirmPassword){
-        return props.setAlert('Password Doen\'t match!', 'light')
+        // return props.setAlert('Password Doen\'t match!', 'light')
+        toast.error("Password and Confirm password must be same!", { position: "top-right" })
+        return;
       }
       props.signupStudent(formData)
     } else {
@@ -98,7 +102,7 @@ const StudentSignUp = (props) => {
     } 
   }
   
-  if(props.isAuthenticated){
+  if(props.isAuthenticated) {
     return <Redirect to='/student-dashboard' />
   }
 
@@ -217,6 +221,10 @@ const StudentSignUp = (props) => {
           >
            { isSignUp?  "Sign Up" : "Sign In"}
           </Button>
+          {!isSignUp && <div style={{cursor: "pointer"}} className="d-flex justify-content-end my-3">
+            <span className="pointer-event" onClick={() => history.push('/student-forgot-password')}>Forgot Passwrod?</span>
+          </div>
+          }
           <Grid container justify="flex-end">
             <Grid item>
               <Link onClick={switchMode} variant="body2">

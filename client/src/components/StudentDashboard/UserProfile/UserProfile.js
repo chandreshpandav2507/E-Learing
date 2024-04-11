@@ -28,11 +28,11 @@ const UserProfile = (props) => {
                         onClick={editButtonHandler}>
                         Edit profile
                     </Button>
-                    <EditProfile 
+                    {showEditProfile && <EditProfile
                         show={showEditProfile}
                         onHide={() => setShowEditProfile(false)}
-                        profileData = {data}
-                    />
+                        profileData={props.profile}
+                    />}
                 </div>
                 
             </div>

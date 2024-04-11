@@ -52,7 +52,7 @@ const UserProfile = (props) => {
                                                 <h6 className="text-muted f-w-400">{props.profile.languageKnown.map(language => language + ', ')}</h6>
                                             </div>
                                             <div className="col-sm-6">
-                                                <p className="m-b-10 f-w-600">Rate Per Hour</p>
+                                                <p className="m-b-10 f-w-600">Rate Per Course</p>
                                                 <h6 className="text-muted f-w-400"> ₹ {props.profile.ratePerHour}</h6>
                                             </div>
                                         </div>

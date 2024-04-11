@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Redirect } from "react-router-dom";
+// import { Redirect} from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
 import { connect} from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -43,6 +44,7 @@ const TeacherSignIn = (props) => {
 
   // const dispatch = useDispatch()
   const [showPassword, setShowPassword] = useState(false);
+  const history = useHistory();
 
   const [formData, setFormData] = useState({
     email: "",
@@ -64,10 +66,14 @@ const TeacherSignIn = (props) => {
   const handleShowPassword = () => setShowPassword((prevShowPassword) => !prevShowPassword)
 
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault()
     // console.log(props.teacherLogin)
-    props.teacherLogin(formData)
+    const response = await props.teacherLogin(formData)
+    console.log('response ----', response);
+    if(response?.token) {
+      history.push('/teacher-dashboard');
+    }
   }
 
   if(props.isAuthenticated) {
@@ -113,6 +119,9 @@ const TeacherSignIn = (props) => {
               handleShowPassword ={handleShowPassword}
             />
           </Grid>
+          <div style={{cursor: "pointer"}} className="d-flex justify-content-end mt-3">
+            <span className="pointer-event" onClick={() => history.push('/teacher-forgot-password')}>Forgot Passwrod?</span>
+          </div>
           <Button
             type="submit"
             fullWidth

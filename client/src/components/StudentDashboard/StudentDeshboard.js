@@ -57,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
-    marginTop: '4.5%',
+    marginTop: '3.3%',
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
@@ -181,6 +181,9 @@ const StudentDashboard = (props) => {
         return 
     }
   }
+
+  console.log('props--', props);
+
   return (
         <div className={classes.root}>
         <CssBaseline />
@@ -215,43 +218,42 @@ const StudentDashboard = (props) => {
             <Divider />
             <List>
             <div>
-                <ListItem button onClick={() => handleLinks('dashboard')}>
-                <ListItemIcon>
-                    <DashboardIcon />
-                </ListItemIcon>
-                <ListItemText primary="Dashboard" />
-                </ListItem>
-                <ListItem button onClick={() => handleLinks('userProfile')}>
-                    <ListItemIcon>
-                        <AccountBoxIcon />
-                    {/* <FontAwesomeIcon icon={faUser} size='lg' /> */}
+                <ListItem className={`list-item ${state === 'dashboard' ? 'active' : ''}`} button onClick={() => handleLinks('dashboard')}>
+                    <ListItemIcon >
+                        <DashboardIcon color={state === 'dashboard' ? 'primary' : ''}/>
                     </ListItemIcon>
-                    <ListItemText primary="Student profile" />
+                    <ListItemText primary="Dashboard" />
                 </ListItem>
-                <ListItem button onClick={() => handleLinks('teachers')}>
-                <ListItemIcon>
-                    <FontAwesomeIcon icon={faChalkboardTeacher} size='lg' />
-                </ListItemIcon>
-                <ListItemText primary="Teachers" />
+                <ListItem className={`list-item ${state === 'userProfile' ? 'active' : ''}`} button onClick={() => handleLinks('userProfile')}>
+                    <ListItemIcon>
+                        <AccountBoxIcon color={state === 'userProfile' ? 'primary' : ''}/>
+                        {/* <FontAwesomeIcon icon={faUser} size='lg' /> */}
+                    </ListItemIcon>
+                    <ListItemText primary="Teacher profile" />
                 </ListItem>
-                <ListItem button onClick={() => handleLinks('books')}>
-                <ListItemIcon>
-                    <MenuBookIcon />
-                </ListItemIcon>
-                <ListItemText primary="Books" />
+                <ListItem className={`list-item ${state === 'teachers' ? 'active' : ''}`} button onClick={() => handleLinks('teachers')}>
+                    <ListItemIcon>
+                        <FontAwesomeIcon color={state === 'teachers' ? '#4540E1' : ''} icon={faChalkboardTeacher} size='lg' />
+                    </ListItemIcon>
+                    <ListItemText primary="Teachers" />
                 </ListItem>
-                <ListItem button onClick={() => handleLinks('materials')}>
-                <ListItemIcon>
-                    {/* <BarChartIcon /> */}
-                    <FileCopyIcon />
-                </ListItemIcon>
-                <ListItemText primary="Materials" />
+                <ListItem className={`list-item ${state === 'books' ? 'active' : ''}`} button onClick={() => handleLinks('books')}>
+                    <ListItemIcon>
+                        <MenuBookIcon color={state === 'books' ? 'primary' : ''}/>
+                    </ListItemIcon>
+                    <ListItemText primary="Books" />
                 </ListItem>
-                <ListItem button onClick={() => handleLinks('classes')}>
-                  <ListItemIcon>
-                      <ClassIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Classes" />
+                <ListItem className={`list-item ${state === 'materials' ? 'active' : ''}`} button onClick={() => handleLinks('materials')}>
+                    <ListItemIcon>
+                        <FileCopyIcon color={state === 'materials' ? 'primary' : ''}/>
+                    </ListItemIcon>
+                    <ListItemText primary="Materials" />
+                </ListItem>
+                <ListItem className={`list-item ${state === 'classes' ? 'active' : ''}`} button onClick={() => handleLinks('classes')}>
+                    <ListItemIcon>
+                        <ClassIcon color={state === 'classes' ? 'primary' : ''}/>
+                    </ListItemIcon>
+                    <ListItemText primary="Classes" />
                 </ListItem>
             </div>
             </List>
@@ -259,7 +261,7 @@ const StudentDashboard = (props) => {
         <main className={classes.content}>
             <div className={classes.appBarSpacer} />
             <Alert /> 
-            {state === 'dashboard' ? <Dashboard  /> : null}
+            {state === 'dashboard' ? <Dashboard  handleLinks={handleLinks}/> : null}
             {state === 'userProfile' ? <UserProfile profile={props.student[0]}/> : null}
             {state === 'teachers' ? <Teachers teachers={props.teachers} /> : null} 
             {/* {console.log(props.books)} */}

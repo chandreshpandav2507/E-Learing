@@ -1,5 +1,5 @@
 import { Button } from '@material-ui/core'
-import React, { useState } from 'react'
+import React, {useEffect, useState} from 'react'
 import { Modal, Form, Col } from 'react-bootstrap'
 import { connect } from 'react-redux';
 
@@ -18,6 +18,11 @@ function EditModel(props) {
         document
     } = formData
     // console.log(subject)
+    useEffect(() => {
+        if(props.data) {
+            setFormData(props.data);
+        }
+    }, [props.data]);
     const handleSubmit = (event) => {
         event.preventDefault()
         
@@ -28,7 +33,8 @@ function EditModel(props) {
         console.log(fd)
         // console.log(props.data._id)
         // console.log(props.addMaterial())
-        props.MaterialUpdate(props.data._id, fd)
+        props.MaterialUpdate(props.data._id, fd);
+        props.onHide();
     }
     const handleChange = (event) => {
         setFormData({...formData, [event.target.name]: event.target.value })

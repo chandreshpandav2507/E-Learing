@@ -1,5 +1,5 @@
 import { Button } from '@material-ui/core'
-import React, { useState } from 'react'
+import React, {useEffect, useState} from 'react'
 import { Modal } from 'react-bootstrap'
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom'
@@ -29,6 +29,12 @@ function EditProfile(props) {
         password,
         phone
     } = formData
+
+    useEffect(() => {
+        if(props.profileData) {
+            setFormData(props.profileData);
+        }
+    }, [props.profileData])
 
     const handleSubmit = (event) => {
         event.preventDefault()

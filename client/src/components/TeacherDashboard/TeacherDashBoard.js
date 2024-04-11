@@ -11,7 +11,7 @@ import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import { connect, useDispatch } from 'react-redux';
+import {connect, useDispatch, useSelector} from 'react-redux';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -32,6 +32,8 @@ import Students from './Students/Students';
 import Materials from './Materials/Materials';
 import Classes from './Classes/Classes'
 import Alert from '../Alert/Alert'
+import {value} from "lodash/seq";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const drawerWidth = 240;
 
@@ -54,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
-    marginTop: '4.5%',
+    marginTop: '3.3%',
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
@@ -123,6 +125,7 @@ const StudentDashboard = (props) => {
   const dispatch = useDispatch()
   const [open, setOpen] = React.useState(true);
   const [state, setState] = useState('dashboard')
+  const { loading,  } = useSelector(state => state.teacherReducer);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -187,7 +190,7 @@ const StudentDashboard = (props) => {
         <Drawer
             variant="permanent"
             classes={{
-            paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
+                paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
             }}
             open={open}
         >
@@ -198,61 +201,67 @@ const StudentDashboard = (props) => {
             </div>
             <Divider />
             <List>
-            <div>
-                <ListItem button onClick={() => handleLinks('dashboard')}>
-                <ListItemIcon>
-                    <DashboardIcon />
-                </ListItemIcon>
-                <ListItemText primary="Dashboard" />
-                </ListItem>
-                <ListItem button onClick={() => handleLinks('userProfile')}>
-                    <ListItemIcon>
-                        <AccountBoxIcon />
-                    {/* <FontAwesomeIcon icon={faUser} size='lg' /> */}
-                    </ListItemIcon>
-                    <ListItemText primary="Teacher profile" />
-                </ListItem>
-                <ListItem button onClick={() => handleLinks('students')}>
-                  <ListItemIcon>
-                      <FontAwesomeIcon icon={faChalkboardTeacher} size='lg' />
-                  </ListItemIcon>
-                  <ListItemText primary="Students" />
-                </ListItem>
-                <ListItem button onClick={() => handleLinks('books')}>
-                <ListItemIcon>
-                    <MenuBookIcon />
-                </ListItemIcon>
-                <ListItemText primary="Books" />
-                </ListItem>
-                <ListItem button onClick={() => handleLinks('materials')}>
-                  <ListItemIcon>
-                      <FileCopyIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Materials" />
-                </ListItem>
-                <ListItem button onClick={() => handleLinks('classes')}>
-                  <ListItemIcon>
-                      <ClassIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Classes" />
-                </ListItem>
-            </div>
+                <div>
+                    <ListItem className={`list-item ${state === 'dashboard' ? 'active' : ''}`} button onClick={() => handleLinks('dashboard')}>
+                        <ListItemIcon >
+                            <DashboardIcon color={state === 'dashboard' ? 'primary' : ''}/>
+                        </ListItemIcon>
+                        <ListItemText primary="Dashboard" />
+                    </ListItem>
+                    <ListItem className={`list-item ${state === 'userProfile' ? 'active' : ''}`} button onClick={() => handleLinks('userProfile')}>
+                        <ListItemIcon>
+                            <AccountBoxIcon color={state === 'userProfile' ? 'primary' : ''}/>
+                        {/* <FontAwesomeIcon icon={faUser} size='lg' /> */}
+                        </ListItemIcon>
+                        <ListItemText primary="Teacher profile" />
+                    </ListItem>
+                    <ListItem className={`list-item ${state === 'students' ? 'active' : ''}`} button onClick={() => handleLinks('students')}>
+                      <ListItemIcon>
+                          <FontAwesomeIcon color={state === 'students' ? '#4540E1' : ''} icon={faChalkboardTeacher} size='lg' />
+                      </ListItemIcon>
+                      <ListItemText primary="Students" />
+                    </ListItem>
+                    <ListItem className={`list-item ${state === 'books' ? 'active' : ''}`} button onClick={() => handleLinks('books')}>
+                        <ListItemIcon>
+                            <MenuBookIcon color={state === 'books' ? 'primary' : ''}/>
+                        </ListItemIcon>
+                        <ListItemText primary="Books" />
+                    </ListItem>
+                    <ListItem className={`list-item ${state === 'materials' ? 'active' : ''}`} button onClick={() => handleLinks('materials')}>
+                      <ListItemIcon>
+                          <FileCopyIcon color={state === 'materials' ? 'primary' : ''}/>
+                      </ListItemIcon>
+                      <ListItemText primary="Materials" />
+                    </ListItem>
+                    <ListItem className={`list-item ${state === 'classes' ? 'active' : ''}`} button onClick={() => handleLinks('classes')}>
+                      <ListItemIcon>
+                          <ClassIcon color={state === 'classes' ? 'primary' : ''}/>
+                      </ListItemIcon>
+                      <ListItemText primary="Classes" />
+                    </ListItem>
+                </div>
             </List>
         </Drawer>
         <main className={classes.content}>
             <div className={classes.appBarSpacer} />
             <Alert />
-            {state === 'dashboard' ? <Dashboard  /> : null}
-            {/* {console.log(props.teacher)} */}
-            {state === 'userProfile' ? <UserProfile profile={props.teacher[0]}/> : null}
-            {/* {console.log(props.students)} */}
-            {state === 'students' ? <Students students={props.students}/> : null} 
-            {/* {console.log(props.books)} */}
-            {state === 'books' ? <Books subjects={props.teacher[0].subjects} books={props.books}/> : null }
-            {/* {console.log(props.materials)} */}
-            {state === 'materials' ? <Materials subjects={props.teacher[0].subjects} materials={props.materials} /> : null}
-            {/* {console.log(props.classes)} */}
-            {state === 'classes' ? <Classes subjects={props.teacher[0].subjects} classes={props.classes} /> : null}
+            {loading
+                ? <CircularProgress style={{ position: "absolute", top: "50%", left: "50%" }} size={50} color="primary"/>
+                : <>
+                    {state === 'dashboard' ? <Dashboard handleLinks={handleLinks} /> : null}
+                    {/* {console.log(props.teacher)} */}
+                    {state === 'userProfile' ? <UserProfile profile={props.teacher[0]}/> : null}
+                    {/* {console.log(props.students)} */}
+                    {state === 'students' ? <Students students={props.students}/> : null}
+                    {/* {console.log(props.books)} */}
+                    {state === 'books' ? <Books subjects={props.teacher[0].subjects} books={props.books}/> : null }
+                    {/* {console.log(props.materials)} */}
+                    {state === 'materials' ? <Materials subjects={props.teacher[0].subjects} materials={props.materials} /> : null}
+                    {/* {console.log(props.classes)} */}
+                    {state === 'classes' ? <Classes subjects={props.teacher[0].subjects} classes={props.classes} /> : null}
+                </>
+            }
+
         </main>
         </div>
   );

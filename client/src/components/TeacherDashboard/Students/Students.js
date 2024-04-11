@@ -7,8 +7,9 @@ import {dissmissStudent} from '../.././../store/actions/teacher'
 
 const Teachers = (props) => {
     const dissmisHandler = (id) => {
-        console.log(id)
-        props.removeStudent(id)
+        if(window.confirm("Are you sure want to dismiss teacher?")) {
+            props.removeStudent(id)
+        }
     }
     return (
         <div>

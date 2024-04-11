@@ -7,11 +7,12 @@ import * as actionTypes from '../actions/actionTypes'
     authData: null,
     error: null,
     profile: null,
-    allTeachers: null,
-    hiredTeachers: null,
-    books: null,
-    materials: null,
-    classes: null
+    allTeachers: [],
+    allStudents: [],
+    hiredTeachers: [],
+    books: [],
+    materials: [],
+    classes: []
 }
 
 
@@ -70,6 +71,15 @@ const reducer = (state = initialState, action) => {
             }
         case actionTypes.FETCH_ALL_TEACHERS_FAILED:
             return {...state}
+
+        case actionTypes.FETCH_ALL_STUDENTS:
+            return {
+                ...state,
+                allStudents: action.data
+            }
+        case actionTypes.FETCH_ALL_STUDENTS_FAILED:
+            return {...state}
+
         case actionTypes.HIRE_TEACHER_SUCESSFULL: return state
         case actionTypes.HIRE_TEACHER_FAIL: return state
         case actionTypes.FETCH_HIRED_TEACHERS: 

@@ -26,6 +26,7 @@ export const removeTeacher = (id) => API.delete(`/student/me/teachers/${id}`)
 export const teacherLogin = (formData) => API.post('/teacher/login', formData)
 export const teacherRegister = (formData) => API.post('/teacher/reg', formData)
 export const getAllTeachers = () => API.get('/teacher/all')
+export const getAllStudents = () => API.get('/student/all')
 export const getTeacherById = (id) => API.get(`/teacher/${id}`)
 export const getTeacherProfile = () => API.get('/teacher/me') 
 export const getStudents = () => API.get('/teacher/me/students')
@@ -53,5 +54,11 @@ export const createClass = (formData) => API.post('/class/new', formData)
 export const getClassesForTeacher = () => API.get('/class')
 export const updateClass = (id, formData) => API.post(`/class/${id}`, formData)
 export const deleteClass = (id) => API.delete(`/class/${id}`)
+
+export const teacherForgotPassword = (input) => API.post(`/teacher-forgot-password`, input)
+export const studentForgotPassword = (input) => API.post(`/student-forgot-password`, input)
+
+export const addQuery = (input) => API.post(`/send-query`, input)
+export const getAllQuery = (input) => API.get('/send-query/all')
 
 

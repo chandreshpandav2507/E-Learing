@@ -40,8 +40,8 @@ function AddClass(props) {
         event.preventDefault()
         // console.log(formData)
         // console.log(props.addClass)
-        props.addClass(formData)
-        return <Redirect to='/' />
+        props.addClass(formData);
+        props.onHide();
     }
     const handleChange = (event) => {
         setFormData({...formData, [event.target.name]: event.target.value })
@@ -58,7 +58,7 @@ function AddClass(props) {
           {/* <Alert /> */}
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-           Class Form
+           Add Class
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>

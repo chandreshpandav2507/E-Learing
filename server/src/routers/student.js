@@ -38,10 +38,12 @@ router.delete('/student/me', auth, async (req, res) => {
     }
 })
 
+router.get('/student/all', student.getAllStudents)
 //Add teacher
-router.get('/student/:id', auth, student.addTeacherById)
 
+router.get('/student/:id', auth, student.addTeacherById)
 //Get teacher of student hired...
+
 router.get('/student/me/teachers', auth, student.getTeachers)
 
 //Get all the books of connected teachers
@@ -55,5 +57,7 @@ router.get('/student/me/classses', auth, student.getClasses)
 
 //Dissmiss Teacher by Student
 router.delete('/student/me/teachers/:id', auth, student.dissmissTeachers)
+
+router.post('/student-forgot-password', student.forgotPassword);
 
 module.exports = router

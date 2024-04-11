@@ -1,12 +1,12 @@
 import React from 'react'
 
-const Dashboard = (...props) => {
+const Dashboard = ({handleLinks}) => {
     return (
         <div className="page-content page-container">
             <div className="padding">
                 <h2 className="ml-3">DASHBOAD</h2>
                 <div className='row mx-auto'>
-                    <div className="col-sm-6 col-md-4">
+                    <div className="col-sm-6 col-md-4" onClick={() => handleLinks('books')} >
                         <div className="card">
                             <div className="image mx-auto m-2">
                                 <img style={{
@@ -23,7 +23,7 @@ const Dashboard = (...props) => {
                             </div>
                         </div>
                     </div>
-                    <div className="col-sm-6 col-md-4">
+                    <div className="col-sm-6 col-md-4" onClick={() => handleLinks('teachers')} >
                         <div className="card">
                             <div className="image mx-auto m-2">
                                 <img style={{
@@ -40,7 +40,7 @@ const Dashboard = (...props) => {
                             </div>
                         </div>
                     </div>
-                    <div className="col-sm-6 col-md-4">
+                    <div className="col-sm-6 col-md-4" onClick={() => handleLinks('materials')} >
                         <div className="card">
                             <div className="image mx-auto m-2">
                                 <img style={{
@@ -57,7 +57,7 @@ const Dashboard = (...props) => {
                             </div>
                         </div>
                     </div>
-                    <div className="col-sm-6 col-md-4">
+                    <div className="col-sm-6 col-md-4" onClick={() => handleLinks('classes')} >
                         <div className="card">
                             <div className="image mx-auto m-2">
                                 <img style={{

@@ -14,6 +14,7 @@ const HeroText = (props) => {
     history.push('/student-dashboard')
     // <Redirect to='/student-dashbaord'/>
   }
+
   return (
     <Container>
       <h1>Learn</h1>
@@ -22,20 +23,16 @@ const HeroText = (props) => {
       <h1>Anywhere.</h1>
       <BtnContainer>
         {
-          props.isAuthenticatedStudent ? 
+          props.isAuthenticatedStudent &&
           <button onClick={onClickHandler}>
             Student Deshboard
-          </button> 
-          : <button onClick={() => history.push('/student')}>
-              Student
-            </button> 
+          </button>
         }
         {
-          props.isAuthenticatedTeacher ?
+          props.isAuthenticatedTeacher &&
           <button onClick={() => history.push('/teacher-dashboard')}>
             Teacher Deshboard
-          </button> 
-          : <button onClick={() => history.push('/teacher')}>Teacher</button>  
+          </button>
         }
         
       </BtnContainer>

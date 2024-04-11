@@ -26,3 +26,12 @@ body {
     background: red;
     color: #fff;
 }
+.list-item {
+    margin-left: 8px !important;
+    padding: 8px 12px !important;
+    border-left: 3px solid transparent !important;
+}
+.list-item.active {
+    color: #4540E1;
+    border-left: 3px solid #4540E1 !important;
+}

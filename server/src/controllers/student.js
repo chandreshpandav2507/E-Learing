@@ -1,10 +1,11 @@
 const Student = require('../models/student')
 const Teacher = require('../models/teacher')
 
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const { validationResult } = require('express-validator')
 const Book = require('../models/books')
+const _ = require("lodash");
 
  const registerStudent = async (req, res) => {
     try {
@@ -48,7 +49,7 @@ const loginStudent = async (req, res) => {
         
         const student = await Student.findByCredentials(req.body.email, req.body.password)
         const token = await student.generateAuthToken()
-        res.status(200).send({result: student, token})
+        res.status(200).send({result: student, token, userType: 'student'})
     }catch(error) {
         res.status(400).send({error: error.message})
     }
@@ -106,6 +107,15 @@ const getTeachers = async(req, res) => {
 
         await student.populate('teachers').execPopulate()
         res.send({result : student.teachers})
+    } catch(error) {
+        res.status(400).send({error: error})
+    }
+}
+
+const getAllStudents = async(req, res) => {
+    try {
+        const students = await Student.find({})
+        res.status(200).send(students)
     } catch(error) {
         res.status(400).send({error: error})
     }
@@ -176,6 +186,28 @@ const dissmissTeachers = async(req, res) => {
     }
 }
 
+const forgotPassword = async (req, res) => {
+    try {
+        const { body } = req;
+
+        if(_.isEmpty(body.email) || _.isEmpty(body.password)) {
+            throw new Error('Email or Password required!')
+        }
+
+        const student = await Student.findOne({email: body.email})
+        if(!student) {
+            return res.status(404).send({error: 'Student Not Found!'})
+        }
+
+        const password = await bcrypt.hash(body.password, 8);
+        await Student.updateOne({ email: body.email }, { password });
+        const updatedStudent = await Student.findOne({email: body.email});
+        res.status(200).send(updatedStudent)
+    } catch(error) {
+        res.status(400).send({error: error.message})
+    }
+}
+
 module.exports = {
     registerStudent,
     getStudent,
@@ -186,5 +218,7 @@ module.exports = {
     getBooks,
     getMaterials,
     getClasses,
-    dissmissTeachers
+    dissmissTeachers,
+    forgotPassword,
+    getAllStudents
 }

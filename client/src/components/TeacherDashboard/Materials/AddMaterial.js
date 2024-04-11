@@ -26,7 +26,8 @@ function AddMaterial(props) {
         fd.append('document', document)
         console.log(fd)
         // console.log(props.addMaterial())
-        props.addMaterial(fd)
+        props.addMaterial(fd);
+        props.onHide();
     }
     const handleChange = (event) => {
         setFormData({...formData, [event.target.name]: event.target.value })

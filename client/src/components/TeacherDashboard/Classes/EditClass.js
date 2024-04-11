@@ -53,7 +53,7 @@ function EditClass(props) {
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-           Edit Class Form
+           Edit Class
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>

@@ -1,6 +1,6 @@
 import { Button } from '@material-ui/core'
-import React, { useState } from 'react'
-import { connect } from 'react-redux';
+import React, {useEffect, useState} from 'react'
+import {connect, useSelector} from 'react-redux';
 
 /* import EditModel from './EditMaterial'*/
 import AddClass from './AddClass'
@@ -11,12 +11,15 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 import { deleteClass } from '../../../store/actions/teacher'
+import {isEmpty} from "lodash";
 
 const Classes = (props) => {
     // console.log(props.subjects)
     const [modalShow, setModalShow] = useState(false);
     const [editClassShow, setEditClassShow] = useState(false)
-    const [editData, setEditData] = useState({})
+    const [editData, setEditData] = useState({});
+    const [renderMaterials, setRenderMaterials] = useState([]);
+    const { classes } = useSelector(state => state.teacherReducer);
 
     const editButtonHandler = (classOne) => {
         setEditData(classOne)
@@ -25,14 +28,19 @@ const Classes = (props) => {
 
     const deleteButtonHandler = (classOne) => {
         console.log(classOne._id)
-        
-        props.removeClass(classOne._id)
+        if(window.confirm("Are you sure want to delete Class?")) {
+            props.removeClass(classOne._id)
+        }
     }
+
+    useEffect(() => {
+        !isEmpty(classes) ? setRenderMaterials(classes): setRenderMaterials([]);
+    }, [classes])
 
     return (
         <div>
-            {props.classes.length === 0 ? 
-             <div className="page-content page-container">
+            {classes?.length === 0 ?
+             (<div className="page-content page-container">
                 <div className="padding">
                     <h2 className="ml-3">CLASSES</h2>
                     <div className='mx-auto'>
@@ -48,7 +56,7 @@ const Classes = (props) => {
                         />
                     </div>
                 </div>
-            </div>
+            </div>)
             :  
             <div className="page-content page-container">
                 <div className="padding">
@@ -68,7 +76,7 @@ const Classes = (props) => {
                                 </tr>
                             </thead>
                             <tbody>
-                               {props.classes.map((classOne, index) => (
+                               {classes?.map((classOne, index) => (
                                     <tr key={index}>
                                         <th scope="row">{index+1}</th>
                                         <td>{classOne.name}</td>

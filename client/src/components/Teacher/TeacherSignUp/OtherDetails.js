@@ -222,7 +222,7 @@ const OtherDetails = ({ formData, setFormData, navigation }) => {
                         required
                         fullWidth
                         id="ratePerHour"
-                        label="Rate per Hour in Rs."
+                        label="Rate per Course in Rs."
                         name="ratePerHour"
                         value={ratePerHour}
                         autoComplete="ratePerHour"

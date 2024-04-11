@@ -51,4 +51,12 @@ router.post('/teacher/me/material/new', auth, teacher.addMaterial)
 
 //Delete student from teacher side.
 router.post('/teacher/me/students/:id', auth, teacher.removeStudent)
+
+router.post('/send-email', teacher.sendEmail);
+
+router.post('/teacher-forgot-password', teacher.forgotPassword);
+
+router.post('/send-query', teacher.sendQuery);
+
+router.get('/send-query/all', teacher.getAllQueries);
 module.exports = router

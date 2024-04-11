@@ -44,7 +44,7 @@ const Teachers = (props) => {
                             <h5>{teacher.degree}</h5>
                         </div>
                         <div className='ml-auto p-2'>
-                            <p className="font-weight-bold text-success"> ₹ {teacher.ratePerHour} Per Hour. </p>
+                            <p className="font-weight-bold text-success"> ₹ {teacher.ratePerHour} Per Course. </p>
                         </div>
                         </div>
                         <div className="content">

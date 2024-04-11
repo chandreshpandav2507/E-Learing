@@ -1,5 +1,5 @@
 import { Button } from '@material-ui/core'
-import React, { useState } from 'react'
+import React, {useEffect, useState} from 'react'
 import { Modal, Form, Col } from 'react-bootstrap'
 import { connect } from 'react-redux';
 
@@ -14,6 +14,11 @@ function EditBook(props) {
         document: null
     });
     // console.log(props.data)
+    useEffect(() => {
+        if(props.data) {
+            setFormData(props.data);
+        }
+    }, [props.data]);
     const {
         name,
         description,
@@ -62,14 +67,14 @@ function EditBook(props) {
                 <Form noValidate>
                 <Form.Row>
                     <Form.Group as={Col} md="6" controlId="validationFormik101">
-                    <Form.Label>Book name</Form.Label>
-                    <Form.Control
-                        type="text"
-                        name="name"
-                        required
-                        value={name}
-                        onChange={handleChange}
-                    />
+                        <Form.Label>Book name</Form.Label>
+                        <Form.Control
+                            type="text"
+                            name="name"
+                            required
+                            value={name}
+                            onChange={handleChange}
+                        />
                     </Form.Group>
                     <Form.Group as={Col} md="6">
                         <Form.Label htmlFor="inlineFormCustomSelectPref">

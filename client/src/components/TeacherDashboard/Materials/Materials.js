@@ -1,6 +1,6 @@
 import { Button } from '@material-ui/core'
-import React, { useState } from 'react'
-import { connect } from 'react-redux';
+import React, {useEffect, useState} from 'react'
+import {connect, useSelector} from 'react-redux';
 
 import EditModel from './EditMaterial'
 import AddMaterial from './AddMaterial'
@@ -12,12 +12,15 @@ import PictureAsPdfIcon from '@material-ui/icons/PictureAsPdf';
 
 import {viewMaterial} from '../../../api'
 import { deleteMaterial } from '../../../store/actions/teacher'
+import {isEmpty} from "lodash";
 
 const Materials = (props) => {
     // console.log(props.subjects)
     const [modalShow, setModalShow] = useState(false);
     const [editModelShow, setEditModelShow] = useState(false)
-    const [editData, setEditData] = useState({})
+    const [editData, setEditData] = useState({});
+    const [renderMaterials, setRenderMaterials] = useState([]);
+    const { materials } = useSelector(state => state.teacherReducer);
 
     const showDocument = async (id) => {
         const response = await viewMaterial(id)
@@ -35,12 +38,18 @@ const Materials = (props) => {
 
     const deleteButtonHandler = (material) => {
         console.log(material._id)
-        props.removeMaterial(material._id)
+        if(window.confirm("Are you sure want to delete Material?")) {
+            props.removeMaterial(material._id)
+        }
     }
+
+    useEffect(() => {
+        !isEmpty(materials) ? setRenderMaterials(materials): setRenderMaterials([]);
+    }, [materials])
 
     return (
         <div>
-            {props.materials.length === 0 ? 
+            {renderMaterials.length === 0 ?
              <div className="page-content page-container">
                 <div className="padding">
                     <h2 className="ml-3">MATERIALS</h2>
@@ -76,7 +85,7 @@ const Materials = (props) => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {props.materials.map((material, index) => (
+                                {renderMaterials.map((material, index) => (
                                     <tr key={index}>
                                         <th scope="row">{index+1}</th>
                                         <td>{material.name}</td>
@@ -110,7 +119,7 @@ const Materials = (props) => {
                     onHide={() => setModalShow(false)}
                     addMaterial={props.addMaterial}
                     subjects={props.subjects}
-                    materials = {props.materials}
+                    materials = {renderMaterials}
                 />
 
                <EditModel 

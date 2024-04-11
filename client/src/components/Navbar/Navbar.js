@@ -37,7 +37,10 @@ const Navbar = (props) => {
   const classes = useStyles();
   const history = useHistory();
   const user = JSON.parse(localStorage.getItem('profile'))
-  // console.log(user)
+  const profile = localStorage.getItem('profile');
+  const { token, userType } = JSON.parse(profile) ? JSON.parse(profile) : {};
+  const pathName = history?.location?.pathname;
+  console.log('history', history.location?.pathname);
   // const user = null
 
   const logOutStudent = (event) => {
@@ -65,39 +68,59 @@ const Navbar = (props) => {
               Private Lessons
             </Button> 
             : null} */}
-          {props.isAuthenticatedStudent ? 
+          {token && !['/teacher-dashboard', '/student-dashboard'].includes(pathName) ?
             <Button 
-            // color="secondary" 
-            component={Link}
-            className='text-white'
-            to='/student-dashboard'>Dashboard</Button> : null}
-          { props.isAuthenticatedTeacher ?
+              // color="secondary"
+              component={Link}
+              className='text-white'
+              to={userType === 'student' ? '/student-dashboard' : '/teacher-dashboard'}
+            >
+                Go to Dashboard
+            </Button> : null
+          }
+
+          {!token && !userType && (
+              <>
+                <Button
+                  className='btn btn-primary'
+                  color="inherit"
+                  component={Link}
+                  to='/teacher'>Teacher
+                  </Button>
+                <Button
+                  color="inherit"
+                  component={Link}
+                  to='/student'
+                  className='btn btn-primary'>Student
+                </Button>
+            </>
+          )}
+          {token && userType === 'teacher' &&
+              ( <div style={{display: "flex"}}>
+                <Avatar className={classes.avatar} alt = ""> {user.result.firstName?.charAt(0)?.toUpperCase()}</Avatar>
+                <Button color="secondary" onClick={logOutTeacher}>Log Out</Button>
+              </div>)
+          }
+          { token && userType === 'student' && (
+              <div style={{display: "flex"}}>
+                <Avatar className={classes.avatar} alt = ""> {user.result?.firstName?.charAt(0)?.toUpperCase()}</Avatar>
+                <Button color="secondary" onClick={logOutStudent}>Log Out</Button>
+              </div>
+          )
+          }
+          {/*{ props.isAuthenticatedTeacher &&
             ( <div style={{display: "flex"}}>
             <Avatar className={classes.avatar} alt = ""> {user.result.firstName.charAt(0)}</Avatar>
             <Button color="secondary" onClick={logOutTeacher}>Log Out</Button>
           </div>)
-            : (
-              <Button 
-              className='btn btn-primary'
-                color="inherit"
-                component={Link}
-                to='/teacher'>Teacher
-              </Button>
-            )
           }
-          { props.isAuthenticatedStudent ? (
+          { props.isAuthenticatedStudent && (
             <div style={{display: "flex"}}>
               <Avatar className={classes.avatar} alt = ""> {user.result.firstName.charAt(0)}</Avatar>
               <Button color="secondary" onClick={logOutStudent}>Log Out</Button>
             </div>
-          ): (
-            <Button 
-              color="inherit"
-              component={Link}
-              to='/student'
-              className='btn btn-primary'>Student
-            </Button>
-          )}
+          )
+          }*/}
           {/* <a href={Pdf} rel="noreferrer" target = "_blank">Download Pdf</a> */}
         </Toolbar>
       </AppBar>

@@ -1,8 +1,12 @@
 const { validationResult } = require('express-validator')
+const nodeMailer = require('nodemailer');
 const Teacher = require('../models/teacher')
 const Book = require('../models/books')
 const Student = require('../models/student')
 const Material = require('../models/material')
+const QueryModel = require('../models/query')
+const bcrypt = require("bcryptjs");
+const _ = require('lodash');;
 
 //Register Teacher POST request 
  const registerTeacher = async (req, res) => {
@@ -17,7 +21,7 @@ const Material = require('../models/material')
         const existingTeacher = await Teacher.findOne({ email })
         // console.log(existingTeacher)
 
-        if(existingTeacher) return res.status(409).json({errors: [{msg: 'User Already Exist!'}]})
+        if(existingTeacher) return res.status(409).json({errors: [{msg: 'Teacher Already Exist!'}]})
 
         const teacher = new Teacher({...req.body})
         // console.log(teacher)
@@ -37,9 +41,9 @@ const loginTeacher = async (req, res) => {
         if(!errors.isEmpty()) {
             return res.status(400).json({errors: errors.array()})
         }
-        const teacher = await Teacher.findByCredentials(req.body.email, req.body.password)
+        const teacher = await Teacher.findByCredentials(req.body.email, req.body.password);
         const token = await teacher.generateAuthToken()
-        res.status(200).send({result: teacher, token})
+        res.status(200).send({result: teacher, token, userType: 'teacher'})
     }catch(error) {
         res.status(400).send({error: error.message})
     }
@@ -48,7 +52,7 @@ const loginTeacher = async (req, res) => {
 //Get Teacher Profie: GET request
 const getTeacher = async (req, res) => {
     try {
-     const teacher = await Teacher.find({_id: req.teacher.id})
+     const teacher = await Teacher.find({_id: req.teacher.id});
      res.status(200).send(teacher)
     } catch(error) {
         res.status(400).send({error: error.message})
@@ -120,7 +124,8 @@ const addBook = async(req, res) => {
         })
         book.save()
         teacher.save()
-        res.send(teacher)
+        console.log("Created Book----", book);
+        res.send(book)
     } catch(error) {
         res.status(400).send({error: error})
     }
@@ -154,7 +159,7 @@ const addMaterial = async(req, res) => {
 
         material.save()
         teacher.save()
-        res.status(201).send(teacher)
+        res.status(201).send(material)
 
     } catch(error) {
         res.status(400).send({error: error.message})
@@ -175,6 +180,85 @@ const removeStudent = async(req, res) => {
     }
 }
 
+const sendEmail = async (req, res) => {
+    try {
+        const email = req.body.email;
+        const content = req.body.content;
+
+        const mail = nodeMailer.createTransport({
+           host: 'smtp.yahoo.com',
+           port: 465,
+           secure: false,
+           auth: {
+               user: 'rkelectronics02@yahoo.com',
+               pass: '9825981807',
+           }
+        });
+
+        console.log('mail---', mail);
+
+        await mail.sendMail({
+            from: 'rkelectronics02@yahoo.com',
+            to: 'rkelectronics02@yahoo.com',
+            subject: 'E-Learning Support',
+            html: `<p>${content}</p>`
+        });
+
+        res.status(200).send('Email Sent Successfully!')
+    } catch (error) {
+        res.status(400).send({error: error.message});
+    }
+}
+
+const forgotPassword = async (req, res) => {
+    try {
+        const { body } = req;
+
+        if(_.isEmpty(body.email) || _.isEmpty(body.password)) {
+            throw new Error('Email or Password required!')
+        }
+
+        const teacher = await Teacher.findOne({email: body.email})
+        if(!teacher) {
+            return res.status(404).send({error: 'Teacher Not Found!'})
+        }
+
+        const password = await bcrypt.hash(body.password, 8);
+        await Teacher.updateOne({ email: body.email }, { password });
+        const updatedTeacher = await Teacher.findOne({email: body.email});
+        res.status(200).send(updatedTeacher)
+    } catch(error) {
+        res.status(400).send({error: error.message})
+    }
+}
+
+const sendQuery = async (req, res) => {
+    try {
+        const { body } = req;
+
+        if(_.isEmpty(body.email) || _.isEmpty(body.message)) {
+            throw new Error('Email or Password required!')
+        }
+
+        const createdQuery = new QueryModel({...req.body})
+        // console.log(teacher)
+
+        await createdQuery.save()
+        res.status(200).send(createdQuery)
+    } catch(error) {
+        res.status(400).send({error: error.message})
+    }
+}
+
+const getAllQueries = async(req, res) => {
+    try {
+        const queries = await QueryModel.find({})
+        res.status(200).send(queries)
+    } catch(error) {
+        res.status(400).send({error: error})
+    }
+}
+
 module.exports = {
     registerTeacher,
     getTeacher,
@@ -185,5 +269,9 @@ module.exports = {
     addBook,
     getBooks,
     addMaterial,
-    removeStudent
+    removeStudent,
+    sendEmail,
+    forgotPassword,
+    sendQuery,
+    getAllQueries,
 }

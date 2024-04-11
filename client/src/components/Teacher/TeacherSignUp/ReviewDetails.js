@@ -35,7 +35,9 @@ const ReviewDetails = ({ formData, navigation,...props}) => {
 
     const handleSubmit = (event) => {
         event.preventDefault()
-        props.signupTeacher(formData)
+        const response = props.signupTeacher(formData);
+
+        console.log(response);
     }
     const { go } = navigation
     const {
